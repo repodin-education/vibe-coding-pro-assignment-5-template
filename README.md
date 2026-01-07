@@ -3,6 +3,7 @@
 ## Learning Objectives
 
 By completing this assignment, you will:
+
 - Understand the importance of testing in software development
 - Learn to write unit tests for server endpoints
 - Practice integration testing for API endpoints
@@ -15,8 +16,8 @@ By completing this assignment, you will:
 ## Prerequisites
 
 - Completed at least Assignment 2 (E2E Hello World)
-- Working server and client application
-- Understanding of your chosen stack (Node.js or Python)
+- Working Node.js server and client application
+- Understanding of Node.js + Express basics
 - Cursor AI installed and configured
 - Basic understanding of testing concepts
 
@@ -37,12 +38,10 @@ This is a **pro-level bonus assignment** worth **10 bonus points**. It's optiona
 Select a testing framework based on your stack:
 
 **For Node.js:**
+
 - **Jest** (recommended) - Popular, well-documented, built-in coverage
 - **Mocha + Chai** - Flexible, modular
 - **Vitest** - Fast, modern alternative
-
-**For Python:**
-- **pytest** (recommended) - Popular, powerful, easy to use
 - **unittest** - Built-in, no installation needed
 - **nose2** - Extended unittest
 
@@ -51,20 +50,24 @@ Select a testing framework based on your stack:
 1. **Install testing framework:**
 
    **Node.js (Jest):**
+
    ```bash
    npm install --save-dev jest
    # Or with TypeScript support
    npm install --save-dev jest @types/jest ts-jest
    ```
 
-   **Python (pytest):**
+   **Or using Vitest:**
+
    ```bash
+   npm install --save-dev vitest
    pip install pytest pytest-cov
    ```
 
 2. **Configure testing:**
 
    **Node.js (package.json):**
+
    ```json
    {
      "scripts": {
@@ -73,14 +76,6 @@ Select a testing framework based on your stack:
        "test:coverage": "jest --coverage"
      }
    }
-   ```
-
-   **Python (pytest.ini or setup.cfg):**
-   ```ini
-   [tool:pytest]
-   testpaths = tests
-   python_files = test_*.py
-   addopts = --cov=. --cov-report=html --cov-report=term
    ```
 
 3. **Create test directory:**
@@ -95,32 +90,28 @@ Write unit tests for your server endpoints:
 
 ```javascript
 // tests/server.test.js
-const request = require('supertest');
-const app = require('../server/index');
+const request = require('supertest')
+const app = require('../server/index')
 
 describe('GET /api/hello', () => {
   test('should return hello message', async () => {
-    const response = await request(app)
-      .get('/api/hello')
-      .expect(200);
+    const response = await request(app).get('/api/hello').expect(200)
 
-    expect(response.body).toHaveProperty('message');
-    expect(response.body.message).toBe('Hello Vibe!');
-  });
+    expect(response.body).toHaveProperty('message')
+    expect(response.body.message).toBe('Hello Vibe!')
+  })
 
   test('should return JSON format', async () => {
-    const response = await request(app)
-      .get('/api/hello')
-      .expect('Content-Type', /json/);
-  });
-});
+    const response = await request(app).get('/api/hello').expect('Content-Type', /json/)
+  })
+})
 ```
 
-**Example (Python with pytest):**
+**Example (Node.js with Vitest):**
 
-```python
-# tests/test_server.py
-import pytest
+```javascript
+// tests/server.test.js
+import { describe, it, expect } from 'vitest'
 from server.app import app
 
 @pytest.fixture
@@ -145,18 +136,16 @@ Write integration tests that test the full API flow:
 
 ```javascript
 // tests/integration.test.js
-const request = require('supertest');
-const app = require('../server/index');
+const request = require('supertest')
+const app = require('../server/index')
 
 describe('API Integration Tests', () => {
   test('full request flow works', async () => {
-    const response = await request(app)
-      .get('/api/hello')
-      .expect(200);
+    const response = await request(app).get('/api/hello').expect(200)
 
-    expect(response.body).toEqual({ message: 'Hello Vibe!' });
-  });
-});
+    expect(response.body).toEqual({ message: 'Hello Vibe!' })
+  })
+})
 ```
 
 ### Step 5: Set Up Test Coverage
@@ -164,13 +153,11 @@ describe('API Integration Tests', () => {
 Configure test coverage reporting:
 
 **Node.js (Jest):**
+
 ```json
 {
   "jest": {
-    "collectCoverageFrom": [
-      "server/**/*.js",
-      "!server/**/*.test.js"
-    ],
+    "collectCoverageFrom": ["server/**/*.js", "!server/**/*.test.js"],
     "coverageThreshold": {
       "global": {
         "branches": 80,
@@ -183,25 +170,28 @@ Configure test coverage reporting:
 }
 ```
 
-**Python (pytest):**
+**Or using Vitest:**
+
 ```bash
+npm run test
 pytest --cov=server --cov-report=html --cov-report=term
 ```
 
 ### Step 6: Run Tests and Generate Coverage
 
 1. **Run tests:**
+
    ```bash
    # Node.js
    npm test
    npm run test:coverage
 
-   # Python
-   pytest
-   pytest --cov
+   # Or Vitest
+   npm run test -- --coverage
    ```
 
 2. **Check coverage:**
+
    - Aim for **> 80% coverage**
    - Review coverage report
    - Identify untested code
@@ -213,6 +203,7 @@ pytest --cov=server --cov-report=html --cov-report=term
 ### Step 7: Document Your Testing
 
 1. **Update README.md:**
+
    - Add "Testing" section
    - Document how to run tests
    - Explain test structure
@@ -267,6 +258,7 @@ Your submission will be evaluated based on:
 4. **Commit:** All changes committed and pushed to GitHub
 
 **Commit message example:**
+
 ```bash
 git commit -m "Pro Assignment 5: Comprehensive Testing Suite"
 ```
@@ -275,7 +267,7 @@ git commit -m "Pro Assignment 5: Comprehensive Testing Suite"
 
 ## Grading Rubric
 
-See [Grading Rubrics](../materials/grading-rubrics.md) for detailed criteria.
+See [Grading Rubrics](https://repodin-education.github.io/vibe-coding-materials/grading-rubrics.html) for detailed criteria.
 
 **Total Points:** 10 bonus points
 
@@ -332,8 +324,8 @@ your-project/
 - Review testing framework documentation:
   - [Jest Documentation](https://jestjs.io/docs/getting-started)
   - [pytest Documentation](https://docs.pytest.org/)
-- Check [FAQ](../materials/faq.md)
-- Review [Student Guide](../materials/student-guide.md)
+- Check [FAQ](https://repodin-education.github.io/vibe-coding-materials/faq.html)
+- Review [Student Guide](https://repodin-education.github.io/vibe-coding-materials/student-guide.html)
 - Contact your teacher if needed
 
 ---
@@ -341,11 +333,13 @@ your-project/
 ## Resources
 
 **Testing Frameworks:**
+
 - [Jest Documentation](https://jestjs.io/)
 - [pytest Documentation](https://docs.pytest.org/)
 - [Testing Best Practices](https://github.com/goldbergyoni/javascript-testing-best-practices)
 
 **Test Coverage:**
+
 - [Understanding Code Coverage](https://www.atlassian.com/continuous-delivery/software-testing/code-coverage)
 - [Coverage Tools](https://coverage.readthedocs.io/)
 
@@ -353,9 +347,9 @@ your-project/
 
 ## Document History
 
-| Version | Date | Author | Changes |
-|---------|------|--------|---------|
-| 1.0 | 2025-12-25 | RepodIn Education Team | Initial version |
+| Version | Date       | Author                 | Changes         |
+| ------- | ---------- | ---------------------- | --------------- |
+| 1.0     | 2025-12-25 | RepodIn Education Team | Initial version |
 
 ---
 
